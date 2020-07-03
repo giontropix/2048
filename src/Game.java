@@ -2,11 +2,16 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
     Box[][] grid = new Box[4][4];
+    int point;
 
     public Game(){
         fillGrid();
         insertBox();
         insertBox();
+    }
+
+    public int getPoint() {
+        return point;
     }
 
     private void fillGrid(){
@@ -65,6 +70,7 @@ public class Game {
                     if(grid[row][column].getValue() == grid[i][j].getValue()){
                         int value = grid[row][column].getValue();
                         grid[row][column].setValue(grid[i][j].getValue() + value);
+                        point += grid[i][j].getValue() + value;
                         grid[i][j].setValue(0);
                     }
                 }
