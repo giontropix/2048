@@ -3,11 +3,16 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game {
     Box[][] grid = new Box[4][4];
     int point;
+    int count = 0;
 
     public Game(){
         fillGrid();
         insertBox();
         insertBox();
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public int getPoint() {
@@ -30,52 +35,55 @@ public class Game {
         } else insertBox();
     }
 
-    private boolean isIntoGridController(int i, int j){
+    private boolean isIntoGrid(int i, int j){
         return (i < grid.length) && (j < grid[0].length) && ((i >= 0) && (j >= 0));
     }
 
-    public void moveBoxes(int row, int column, int direction){
+    public void moveBoxes(int rowInDirection, int columnInDirection, int direction){
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 switch (direction){
-                    case 2: row = i + 1;
-                            column = j;
+                    case 2: rowInDirection = i + 1;
+                            columnInDirection = j;
                     break;
-                    case 4: row = i;
-                            column = j - 1;
+                    case 4: rowInDirection = i;
+                            columnInDirection = j - 1;
                     break;
-                    case 8: row = i - 1;
-                            column = j;
+                    case 8: rowInDirection = i - 1;
+                            columnInDirection = j;
                     break;
-                    case 6: row = i;
-                            column = j + 1;
+                    case 6: rowInDirection = i;
+                            columnInDirection = j + 1;
                     break;
                 }
-                if ((grid[i][j].getValue() != 0) && (isIntoGridController(row, column))){
-                    if (grid[row][column].getValue() == 0){
+                if ((grid[i][j].getValue() != 0) && (isIntoGrid(rowInDirection, columnInDirection))){
+                    if (grid[rowInDirection][columnInDirection].getValue() == 0){
                         int value = grid[i][j].getValue();
-                        grid[row][column].setValue(value);
+                        grid[rowInDirection][columnInDirection].setValue(value);
                         grid[i][j].setValue(0);
+                        count++;
                         switch (direction) {
-                            case 2: moveBoxes(row + 1, column, 2);
+                            case 2: moveBoxes(rowInDirection + 1, columnInDirection, 2);
                             break;
-                            case 4: moveBoxes(row, column - 1, 4);
+                            case 4: moveBoxes(rowInDirection, columnInDirection - 1, 4);
                             break;
-                            case 8: moveBoxes(row - 1, column, 8);
+                            case 8: moveBoxes(rowInDirection - 1, columnInDirection, 8);
                             break;
-                            case 6: moveBoxes(row, column + 1, 6);
+                            case 6: moveBoxes(rowInDirection, columnInDirection + 1, 6);
                             break;
                         }
                     }
-                    if(grid[row][column].getValue() == grid[i][j].getValue()){
-                        int value = grid[row][column].getValue();
-                        grid[row][column].setValue(grid[i][j].getValue() + value);
+                    if(grid[rowInDirection][columnInDirection].getValue() == grid[i][j].getValue() && count == 0){
+                        int value = grid[rowInDirection][columnInDirection].getValue();
+                        grid[rowInDirection][columnInDirection].setValue(grid[i][j].getValue() + value);
                         point += grid[i][j].getValue() + value;
                         grid[i][j].setValue(0);
+                        count++;
                     }
                 }
             }
         }
+        count = 0;
     }
 
     public boolean isWin(){
