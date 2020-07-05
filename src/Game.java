@@ -35,10 +35,10 @@ public class Game {
     }
 
     public void resetAlreadyAdded(){
-        for (int i = 0; i < this.grid.length; i++) {
-            for (int j = 0; j < this.grid[i].length; j++) {
-                if (this.grid[i][j].isAlreadyAdded())
-                    this.grid[i][j].setAlreadyAdded(false);
+        for (Box[] boxes : this.grid) {
+            for (Box box : boxes) {
+                if (box.isAlreadyAdded())
+                    box.setAlreadyAdded(false);
             }
         }
     }
@@ -89,9 +89,9 @@ public class Game {
     }
 
     public boolean isWin(){
-        for (int i = 0; i < this.grid.length; i++) {
-            for (int j = 0; j < this.grid[i].length; j++) {
-                if ((this.grid[i][j].getValue() == 2048))
+        for (Box[] boxes : this.grid) {
+            for (Box box : boxes) {
+                if ((box.getValue() == 2048))
                     return true;
             }
         }
@@ -100,24 +100,24 @@ public class Game {
 
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < this.grid.length; i++) {
+        for (Box[] boxes : this.grid) {
             result.append("[");
-            for (int j = 0; j < this.grid[i].length; j++) {
-                if (this.grid[i][j].getValue() == 0)
+            for (Box box : boxes) {
+                if (box.getValue() == 0)
                     result.append("[").append(" ").append("]");
-                if (this.grid[i][j].getValue() == 2)
+                if (box.getValue() == 2)
                     result.append("[").append("\u001B[32m2\u001B[0m").append("]");
-                if (this.grid[i][j].getValue() == 4)
+                if (box.getValue() == 4)
                     result.append("[").append("\u001B[33m4\u001B[0m").append("]");
-                if (this.grid[i][j].getValue() == 8)
+                if (box.getValue() == 8)
                     result.append("[").append("\u001B[31m8\u001B[0m").append("]");
-                if (this.grid[i][j].getValue() == 16)
+                if (box.getValue() == 16)
                     result.append("[").append("\u001B[36m16\u001B[0m").append("]");
-                if (this.grid[i][j].getValue() == 32)
+                if (box.getValue() == 32)
                     result.append("[").append("\u001B[36m32\u001B[0m").append("]");
-                if (this.grid[i][j].getValue() == 64)
+                if (box.getValue() == 64)
                     result.append("[").append("\u001B[35m64\u001B[0m").append("]");
-                if (this.grid[i][j].getValue() == 128)
+                if (box.getValue() == 128)
                     result.append("[").append("\u001B[31m128\u001B[0m").append("]");
             }
             result.append("]\n");
