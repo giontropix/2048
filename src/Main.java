@@ -18,6 +18,7 @@ public class Main {
                 case 6: game.moveBoxes(0, 0, 6);
                     break;
             }
+            game.resetAlreadyAdded();
             System.out.println("Punti totali: " + game.getPoint());
             game.insertBox();
             System.out.println(game.toString());
